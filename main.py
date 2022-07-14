@@ -5,7 +5,7 @@ import lightbulb
 import random
 
 bot = lightbulb.BotApp(
-    token='', 
+    token='YOUR TOKEN',
     default_enabled_guilds=()
 )
 
@@ -15,7 +15,7 @@ async def print_event(event):
 
 @bot.listen(hikari.StartedEvent)
 async def bot_start(event):
-    print('I pull up.')
+    print('Logged in as {}.'.format(bot))
 
 @bot.command
 @lightbulb.command('hi', 'say hello back')
@@ -28,10 +28,15 @@ async def print_hello(ctx):
 @lightbulb.implements(lightbulb.SlashCommand)
 async def print_facts(ctx):
     based_facts = ['The based department is the global organization for all the based individuals on this planet. It is based on the Two-things theory, the head of the department is the CBO. The CBO is straight and based, which means he is straight-up based, CBO stays flexing at all times.',
-                   'Go make me a fucking sandwich cuz that’s all y’all bitches are good for. Bitches only belong in the kitchen, or y’all be sucking dicks',
+                   'Treat a bitch like a celebrity, and she’ll treat you like a fan, treat a bitch like a dog, she’ll treat you like an owner and always stay loyal',
                    'The first CBO was named after Sir. Yahoo 69 MD (*where MD stands for Massive Dick)',
-                   'If there are a million people saying hello unique sora, then I am one of them. If there are ten people saying hello unique sora , then I am one of them. If there is only one person saying hello unique sora, that is me. If no one is saying hello unique sora, then that means I am no longer on earth. If the world is against unique sora, then I am against the world.']
-    await ctx.respond(based_facts[random.randint(0, 3)])
+                   'If there are a million people saying hello unique sora, then I am one of them. If there are ten people saying hello unique sora , then I am one of them. If there is only one person saying hello unique sora, that is me. If no one is saying hello unique sora, then that means I am no longer on earth. If the world is against unique sora, then I am against the world.',
+                   'From the streets did she emerge, and to the streets she will return. And I say unto you, she is for the streets. So be not weary, when she must return from whence she came',
+                   'It\'s hard for me to take you seriously when I know what\'s been in that mouth of yours',
+                   'There are no chicks with dicks, only guys with tits',
+                   'Bitches ain\'t shit but hoes and tricks'
+                   ]
+    await ctx.respond(based_facts[random.randint(0, 7)])
 
 @bot.command
 @lightbulb.command('start', 'Based Activities')
@@ -47,40 +52,47 @@ async def roll_dice(ctx):
     await ctx.respond('The number you rolled is **{}**!'.format(dice_num))
 
 @start.child()
-@lightbulb.option('number', 'Numbers of dice you are rolling (0-30)', type=int)
+@lightbulb.option('number', 'Numbers of dice you are rolling (0-600)', type=int)
 @lightbulb.command('rolls', 'Roll multiple dices')
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def rolls(ctx):
     roll_count = ctx.options.number
+    list_of_rolls = []
     roll_sum = 0
     for i in range(roll_count):
         random_roll = random.randint(1,6)
-        await ctx.respond('You rolled **{}**!'.format(random_roll))
+        list_of_rolls.append(random_roll)
+        # await ctx.respond('You rolled **{}**!'.format(random_roll))
         roll_sum += random_roll
         i += 1
+    rolls_string = ' '.join(map(str,list_of_rolls))
+    await ctx.respond('Numbers you rolled: {}'.format((rolls_string)))
     await ctx.respond('Dice rolled: **{}** \nThe Sum: **{}**'.format(roll_count, roll_sum))
 
 
-@bot.command
-@lightbulb.command('dps', 'damage calculations')
-@lightbulb.implements(lightbulb.SlashCommandGroup)
-async def dps(ctx):
-    pass
+# @bot.command
+# @lightbulb.command('dps', 'damage calculations')
+# @lightbulb.implements(lightbulb.SlashCommandGroup)
+# async def dps(ctx):
+#     pass
+#
+# @dps.child()
+# @lightbulb.command('armor', 'calculates armor dps with crazy math')
+# @lightbulb.implements(lightbulb.SlashSubCommand)
+# async def armor(ctx):
+#     await ctx.respond('armor dps does not exist you tard')
+#
+# @dps.child()
+# @lightbulb.option('tier', 'Attack Speed multiplier', type=float)
+# @lightbulb.option('base', 'Base of the weapon', type=int)
+# @lightbulb.command('weapon', 'Calculates the DPS')
+# @lightbulb.implements(lightbulb.SlashSubCommand)
+# async def weap_dps(ctx):
+#     average_dps = ctx.options.base * ctx.options.tier
+#     await ctx.respond('Effective DPS: {}'.format(average_dps))
+#     return average_dps
 
-@dps.child()
-@lightbulb.command('armor', 'calculates armor dps with crazy math')
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def armor(ctx):
-    await ctx.respond('armor dps does not exist you tard')
 
-@dps.child()
-@lightbulb.option('tier', 'Attack Speed multiplier', type=float)
-@lightbulb.option('base', 'Base of the weapon', type=int)
-@lightbulb.command('weapon', 'Calculates the DPS')
-@lightbulb.implements(lightbulb.SlashSubCommand)
-async def weap_dps(ctx):
-    average_dps = ctx.options.base * ctx.options.tier
-    await ctx.respond('Effective DPS: {}'.format(average_dps))
-    return average_dps
-
+# bot.load_extensions('extensions.example')
+bot.load_extensions_from('./extensions')
 bot.run()
