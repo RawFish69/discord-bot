@@ -5,7 +5,7 @@ import lightbulb
 import randomhttps://github.com/RawFish69/discord-bot/blob/main/main.py
 
 bot = lightbulb.BotApp(
-    token='ODczNjc3OTcwOTI4MTkzNTY4.G9zID2.E6IOMYwVNPO55UxdJA9Uo7J9Vpcu-DLo02MLOk',
+    token='',
     default_enabled_guilds=(996653472575397918, 434168318128160768)
 )
 
