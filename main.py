@@ -2,11 +2,11 @@
 
 import hikari
 import lightbulb
-import random
+import randomhttps://github.com/RawFish69/discord-bot/blob/main/main.py
 
 bot = lightbulb.BotApp(
-    token='YOUR TOKEN',
-    default_enabled_guilds=()
+    token='ODczNjc3OTcwOTI4MTkzNTY4.G9zID2.E6IOMYwVNPO55UxdJA9Uo7J9Vpcu-DLo02MLOk',
+    default_enabled_guilds=(996653472575397918, 434168318128160768)
 )
 
 @bot.listen(hikari.GuildMessageCreateEvent)
@@ -15,7 +15,7 @@ async def print_event(event):
 
 @bot.listen(hikari.StartedEvent)
 async def bot_start(event):
-    print('Logged in as {}.'.format(bot))
+    print('I pull up.')
 
 @bot.command
 @lightbulb.command('hi', 'say hello back')
@@ -33,10 +33,9 @@ async def print_facts(ctx):
                    'If there are a million people saying hello unique sora, then I am one of them. If there are ten people saying hello unique sora , then I am one of them. If there is only one person saying hello unique sora, that is me. If no one is saying hello unique sora, then that means I am no longer on earth. If the world is against unique sora, then I am against the world.',
                    'From the streets did she emerge, and to the streets she will return. And I say unto you, she is for the streets. So be not weary, when she must return from whence she came',
                    'It\'s hard for me to take you seriously when I know what\'s been in that mouth of yours',
-                   'There are no chicks with dicks, only guys with tits',
-                   'Bitches ain\'t shit but hoes and tricks'
+                   'There are no chicks with dicks, only guys with tits'
                    ]
-    await ctx.respond(based_facts[random.randint(0, 7)])
+    await ctx.respond(based_facts[random.randint(0, 6)])
 
 @bot.command
 @lightbulb.command('start', 'Based Activities')
@@ -52,47 +51,41 @@ async def roll_dice(ctx):
     await ctx.respond('The number you rolled is **{}**!'.format(dice_num))
 
 @start.child()
-@lightbulb.option('number', 'Numbers of dice you are rolling (0-600)', type=int)
+@lightbulb.option('number', 'Numbers of dice you are rolling (0-30)', type=int)
 @lightbulb.command('rolls', 'Roll multiple dices')
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def rolls(ctx):
     roll_count = ctx.options.number
-    list_of_rolls = []
     roll_sum = 0
     for i in range(roll_count):
         random_roll = random.randint(1,6)
-        list_of_rolls.append(random_roll)
-        # await ctx.respond('You rolled **{}**!'.format(random_roll))
+        await ctx.respond('You rolled **{}**!'.format(random_roll))
         roll_sum += random_roll
         i += 1
-    rolls_string = ' '.join(map(str,list_of_rolls))
-    await ctx.respond('Numbers you rolled: {}'.format((rolls_string)))
     await ctx.respond('Dice rolled: **{}** \nThe Sum: **{}**'.format(roll_count, roll_sum))
 
 
-# @bot.command
-# @lightbulb.command('dps', 'damage calculations')
-# @lightbulb.implements(lightbulb.SlashCommandGroup)
-# async def dps(ctx):
-#     pass
-#
-# @dps.child()
-# @lightbulb.command('armor', 'calculates armor dps with crazy math')
-# @lightbulb.implements(lightbulb.SlashSubCommand)
-# async def armor(ctx):
-#     await ctx.respond('armor dps does not exist you tard')
-#
-# @dps.child()
-# @lightbulb.option('tier', 'Attack Speed multiplier', type=float)
-# @lightbulb.option('base', 'Base of the weapon', type=int)
-# @lightbulb.command('weapon', 'Calculates the DPS')
-# @lightbulb.implements(lightbulb.SlashSubCommand)
-# async def weap_dps(ctx):
-#     average_dps = ctx.options.base * ctx.options.tier
-#     await ctx.respond('Effective DPS: {}'.format(average_dps))
-#     return average_dps
+@bot.command
+@lightbulb.command('dps', 'damage calculations')
+@lightbulb.implements(lightbulb.SlashCommandGroup)
+async def dps(ctx):
+    pass
 
+@dps.child()
+@lightbulb.command('armor', 'calculates armor dps with crazy math')
+@lightbulb.implements(lightbulb.SlashSubCommand)
+async def armor(ctx):
+    await ctx.respond('armor dps does not exist you tard')
 
-# bot.load_extensions('extensions.example')
-bot.load_extensions_from('./extensions')
+@dps.child()
+@lightbulb.option('tier', 'Attack Speed multiplier', type=float)
+@lightbulb.option('base', 'Base of the weapon', type=int)
+@lightbulb.command('weapon', 'Calculates the DPS')
+@lightbulb.implements(lightbulb.SlashSubCommand)
+async def weap_dps(ctx):
+    average_dps = ctx.options.base * ctx.options.tier
+    await ctx.respond('Effective DPS: {}'.format(average_dps))
+    return average_dps
+
 bot.run()
+
